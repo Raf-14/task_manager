@@ -1,0 +1,9 @@
+{
+    "user": {
+        "id": "67b365257138dd0977a7071a",
+        "name": "john",
+        "last_name": "doe",
+        "email": "john@example.com"
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2IzNjUyNTcxMzhkZDA5NzdhNzA3MWEiLCJpYXQiOjE3Mzk4MTAwODYsImV4cCI6MTczOTg5NjQ4Nn0.Je-aRu8h3S6QhLBRzS6-2bj1nGVcVD9rL3Vb29uRtIw"
+}
