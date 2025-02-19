@@ -4,82 +4,14 @@ import { Modal } from '../components/modal';
 import {  useState } from 'react';
 import { Task } from "../components/taskCompenents";
 import { fieldAddTask, fieldsRegister } from '../components/field';
+import { RegisterForm } from '../components/RegisterForm'
 
-
-// Définition du type de données pour le formulaire
-interface SignUpData {
-  name: string;
-  Last_name: string;
-  email: string;
-  password: string;
-  confPassword: string;
-}
-
-// Fonctions de validation
-const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const validatePassword = (password: string) =>
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(password);
-const validatePasswordMatch = (password: string, confirmPassword: string) => password === confirmPassword;
 
 const Home = () => {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [ showLoginModal, setShowLoginModal ] = useState(false);
   const [showViewTaskModal, setShowViewTaskModal] = useState(false);
-    // États pour les champs, erreurs et chargement
-    const [signUpData, setSignUpData] = useState<SignUpData>({
-      name: '',
-      Last_name: '',
-      email: '',
-      password: '',
-      confPassword: '',
-    });
-
-    const [ error, setError ] = useState<string | null>(null)
-    const [ isLoading, setIsLoading ] = useState(false)
-
-    // Gétion de changements dans les champs 
-    const handleChange =(e:React.ChangeEvent<HTMLInputElement>) =>{
-      const { name, value } = e.target;
-      setSignUpData({...signUpData,[name]: value});
-      if (name === 'email' && !validateEmail(value)) {
-        setError('Veuillez entrer une adresse email valide');
-      } else if (name === 'password' && !validatePassword(value)) {
-        setError('Mot de passe non conforme');
-      } else if (name === 'confPassword' && !validatePasswordMatch(value, signUpData.password)) {
-        setError('Les mots de passe ne correspondent pas');
-      } else {
-        setError(null);
-      }
-    }
-
-    // Géstion de l'envoie du formaulaire
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-  
-      if (!validateEmail(signUpData.email)) {
-        setError('Adresse email invalide');
-        return;
-      }
-      if (!validatePassword(signUpData.password)) {
-        setError('Mot de passe non conforme');
-        return;
-      }
-      if (!validatePasswordMatch(signUpData.password, signUpData.confPassword)) {
-        setError('Les mots de passe ne correspondent pas');
-        return;
-      }
-  
-      setError(null);
-      setIsLoading(true);
-  
-      // Simulation d'une requête API
-      setTimeout(() => {
-        console.log('Formulaire soumis avec succès :', signUpData);
-        setIsLoading(false);
-      }, 2000);
-    };
-  
 
   return (
     <div className="flex flex-col gap-5">
@@ -213,27 +145,15 @@ const Home = () => {
         </Modal>
       )}
 
-      {showRegisterModal && (
-        <Modal title="Register" onClose={() => setShowRegisterModal(false)}>
-          <form onSubmit={handleSubmit} className="p-5 mx-auto border rounded shadow-2xl w-md bg-zinc-50">
-            {fieldsRegister.map((field) =>(
-              <Input
-                key={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-                name={field.name}
-                value={signUpData[name]}
-                disabled={false}
-                id={field.id}
-                onChange={handleChange}
-              />
-            ))}
-             {/* Message d'erreur */}
-             {error && <p className="text-red-500">{error}</p>}
-            <Button type="submit" title={isLoading ? 'Chargement': 'Register'}>Register</Button>
-          </form>
-        </Modal>
-      )}
+    {showRegisterModal && (
+            <Modal 
+              title="Register" 
+              onClose={() => setShowRegisterModal(false)}
+            >
+              <RegisterForm />
+            </Modal>
+          )}
+          
       {showLoginModal && (
         <Modal title="Login" onClose={() => setShowLoginModal(false)}>
           <form action="" method="post" className="p-5 mx-auto border rounded shadow-2xl w-md bg-zinc-50">

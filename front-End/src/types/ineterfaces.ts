@@ -15,7 +15,8 @@ export interface Task {
   }
   
 // Type pour les champs
-export type FieldId = 'username' | 'Last_name' | 'email' | 'password' | 'confPassword'| 'name';
+export type FieldId = 'username' | 'Last_name' | 'email' | 'password' | 'confPassword';
+
 export type FieldId2 = 'title' | 'description'
 
 export interface ModalProps {
@@ -27,6 +28,7 @@ export interface ModalProps {
  export interface ButtonProps {
   title: string;
   onClick: () => void;
+  disabled?: boolean;
   type : 'submit' | 'button' | 'reset';
   children: ReactNode;
 }
@@ -41,4 +43,11 @@ export interface ModalProps {
     className?: string;
     id?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  }
+ export interface SignUpData {
+    name: string;
+    Last_name: string;
+    email: string;
+    password: string;
+    confPassword: string;
   }

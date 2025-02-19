@@ -1,5 +1,11 @@
 import { FieldId ,FieldId2 } from "../types/ineterfaces";
 
+interface FormField {
+  id: FieldId;
+  type: string;
+  placeholder: string;
+  name: string;
+}
   // Tableau de configuration des champs
   export const fieldsRegister: { id: FieldId;  type: string; placeholder: string, name: string }[] = [
     { id: 'username', type: 'text', placeholder: 'Entrez votre nom', name:"name" },

@@ -9,6 +9,7 @@ interface AuthRequest extends Request {
 
     // Créer une nouvelle tâche
     export const createTask = async (req: AuthRequest, res: Response) =>{
+        console.log("Tentative de création de tâche", req.body);
         try {
             const task = new Task({
                 ...req.body,
