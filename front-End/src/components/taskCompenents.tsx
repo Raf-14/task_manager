@@ -3,7 +3,7 @@ import { taskArrayProps } from "../types/ineterfaces";
 
 
 
-  export const Task: FC<taskArrayProps> = ({ items }: taskArrayProps) => {
+  export const Task: FC<taskArrayProps> = ({ tasks }: taskArrayProps) => {
     return(
     <div className="p-5 bg-white border rounded-lg shadow-md">
       <table className="min-w-full bg-white">
@@ -17,7 +17,7 @@ import { taskArrayProps } from "../types/ineterfaces";
           </tr>
         </thead>
         <tbody>
-          {items.map((task, index) => (
+          {tasks.map((task, index) => (
             <tr key={index} className="hover:bg-zinc-50">
               <td className="px-4 py-2 text-sm text-gray-600 border-b border-gray-200 cursor-pointer ">{task.title}</td>
               <td className="px-4 py-2 text-sm text-gray-600 border-b border-gray-200 cursor-pointer ">{task.description}</td>

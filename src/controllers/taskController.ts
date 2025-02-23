@@ -7,20 +7,32 @@ interface AuthRequest extends Request {
 }
 
 
-    // Créer une nouvelle tâche
-    export const createTask = async (req: AuthRequest, res: Response) =>{
-        console.log("Tentative de création de tâche", req.body);
-        try {
-            const task = new Task({
-                ...req.body,
-                userId: req.user._id
-            });
-            await task.save();
-            res.status(201).json(task);
-        } catch (error) {
-            res.status(400).json({ error: 'Erreur lors de la création de la tâche' });
-        }
+/**
+ * Créer une nouvelle tâche
+ * 
+ */
+export const createTask = async (req: AuthRequest, res: Response) => {
+    console.log("Tentative de création de tâche", req.body);
+  
+    try {
+      const task = new Task({
+        ...req.body,
+        userId: req.user._id, // Ajout de l'ID utilisateur depuis le token
+      });
+  
+      await task.save();
+      res.status(201).json(task);
+    } catch (error) {
+        res.status(400).json({ error: 'Erreur lors de la création de la tâche' });
+        console.error("Erreur lors de la création de la tâche", error);
+  
+      if (error) {
+        return res.status(400).json({ errors: error });
+      }
+  
+      res.status(500).json({ error: "Erreur serveur lors de la création de la tâche" });
     }
+  };
 
     // Obtenir toutes les tâches de l'utilisateur
     export const getTasks = async (req: AuthRequest, res: Response) => {

@@ -3,8 +3,9 @@ import { Input } from '../components/input';
 import { Modal } from '../components/modal';
 import {  useState } from 'react';
 import { Task } from "../components/taskCompenents";
-import { fieldAddTask, fieldsRegister } from '../components/field';
-import { RegisterForm } from '../components/RegisterForm'
+import { fieldAddTask } from '../components/field';
+import { RegisterForm  } from '../components/RegisterForm'
+import { LoginForm  } from '../components/LoginForm'
 
 
 const Home = () => {
@@ -14,23 +15,70 @@ const Home = () => {
   const [showViewTaskModal, setShowViewTaskModal] = useState(false);
 
   return (
-    <div className="flex flex-col gap-5">
-        {/*Création d'une Cartes statistiques avec les mêmes informations  */}
-          <div className="grid w-full max-w-4xl grid-cols-1 gap-3 mx-auto md:grid-cols-2 lg:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div
-                    key={index}
-                    className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg"
+    <div className="w-full h-screen ">
+      <h1 className='text-2xl font-extrabold font-serif text-black underline'>Gestion of task</h1>
+      <p className='text-xl font-bol font-sans text-black m-5'>Organise your owne task or work in a team and see how your work is move</p>
+       {/* Button to display Modal, default hidden */}
+       <div className="flex items-center justify-center w-full gap-3">
+          <Button type="button" onClick={() => setShowAddTaskModal(true)}>Add Task</Button>
+          <Button type="button" onClick={() => setShowRegisterModal(true)}>Register</Button>
+          <Button type="button" onClick={() => setShowLoginModal(true)}>Login</Button>
+          <Button type="button" onClick={() => setShowViewTaskModal(true)}>View task</Button>
+      </div>
+      {/* statistique of work */}
+      
+       {/* Modal to display, default hidden */}
+     <div>
+        {showAddTaskModal && (
+            <Modal title="Add Task" onClose={() => setShowAddTaskModal(false)}>
+              <form action="" method="post" className="p-5 mx-auto border rounded shadow-2xl w-md bg-zinc-50">
+                {
+                  fieldAddTask.map((field) => (
+                    <Input
+                      key={field.id}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      name={field.name}
+                      disabled={false}
+                      id={field.id}
+                      onChange={(e) => console.log(e.target.value)}
+                    />
+                  ))
+                }
+                <Button type="submit" onClick={() => alert('Task added!')}>Add Task</Button>
+              </form>
+            </Modal>
+          )}
+
+        {showRegisterModal && (
+                <Modal 
+                  title="Register" 
+                  onClose={() => setShowRegisterModal(false)}
                 >
-                    <h4 className="text-lg font-semibold">Nombre de patients :</h4>
-                    <p className="text-2xl font-bold text-blue-500">5</p>
-                </div>
-            ))} 
-        </div>
-        {/* Main content */}
-        <div className="container">
-          {
-             <div className="p-5 bg-white rounded-lg shadow-2xl">
+                  <RegisterForm />
+                </Modal>
+              )}
+              
+          {showLoginModal && (
+                <Modal 
+                title="Login" 
+                onClose={() => setShowLoginModal(false)}
+                >
+                <LoginForm />
+                </Modal>
+          )}             
+          
+          {showViewTaskModal && (
+            <Modal title="View Tasks" onClose={() => setShowViewTaskModal(false)}>
+              <div className="flex flex-col gap-5">
+                <Task tasks={taskItems}/>
+              </div>
+            </Modal>
+          )}
+     </div>
+      {/* array of task */}
+      <div>
+      {<div className="p-5 bg-white rounded-lg shadow-2xl m-5 w-full">
               <p className="font-sans text-xl font-bold">Number{taskItems.length > 2 ? 's': ''} of Task is {taskItems.length}</p>
              <table className="min-w-full bg-white">
                <thead>
@@ -52,138 +100,74 @@ const Home = () => {
                     ))}
                 </tbody>        
              </table>
-           </div>
-          }
-         <div className="">
-           <p className="font-sans text-xl font-bold">Status Task Progressing</p>
-            <div className="flex justify-center w-full gap-4 p-3 mt-5 rounded shadow-2xl contStatus items">
-                <div className="TODO">
-                    <span className="font-serif text-2xl font-semibold">TODO</span>
-                  <div className="flex flex-col mt-5 border rounded shadow-2xl w-sm bg-zinc-100">
-                    {taskItems.map((task) => (
-                      <p key={task.id}>{task.status ==="TODO" ? task.title: ''}</p>
+           </div>}
+      </div>
+
+      {/* State of task Status Task Progressing*/}
+      <div className='w-full flex justify-between items-center p-5'>
+        {/* array 1 left */}
+        <div>
+        <p className="font-sans text-xl font-bold">Status Task Progressing</p>
+         <div className="flex justify-center w-xl gap-4 p-3 mt-5  shadow-2xl items rounded-md">
+            <div className="TODO">
+                <span className="font-serif text-2xl font-thin">AT_TODO</span>
+                <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+                  {taskItems.map((task) =>(
+                      <p key={task.id}>{task.status === "TODO" ? task.title : ''}</p>
                     ))}
-                  </div>
                 </div>
-                <div className="IN_PROGRESS">
-                <span className="font-serif text-2xl font-semibold">IN_PROGRESS</span>
-                  <div className="flex flex-col mt-5 border rounded shadow-2xl w-sm bg-zinc-100">
+            </div>
+            <div className="IN_PROGRESS">
+            <span className="font-serif text-2xl font-thin">IN_PROGRESS</span>
+              <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
                   {taskItems.map((task) => (
                       <p key={task.id}>{task.status ==="IN_PROGRESS" ? task.title: ''}</p>
                     ))}
-                  </div>
-                </div>
-                <div className="COMPLETED">
-                <span className="font-serif text-2xl font-semibold">COMPLETED</span>
-                  <div className="flex flex-col mt-5 border rounded shadow-2xl w-sm bg-zinc-100">
-                  {taskItems.map((task) => (
-                      <p key={task.id}>{task.status ==="COMPLETED" ? task.title : ''}</p>
-                    ))}
-                  </div>
-                </div>
               </div>
+            </div>
+            <div className="COMPLETED">
+            <span className="font-serif text-2xl font-thin">COMPLETED</span>
+              <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+              {taskItems.map((task) => (
+                  <p key={task.id}>{task.status ==="COMPLETED" ? task.title : ''}</p>
+                ))}
+              </div>
+            </div>
          </div>
-           <p className="font-sans text-xl font-bold">Task Progressing</p>
-          <div className="flex justify-center w-full gap-4 p-3 mt-5 rounded shadow-2xl contStatus items ">
+        </div>
+        {/* array 2 right Task Progressing*/}
+        <div>
+        <p className="font-sans text-xl font-bold">Task Progressing</p>
+          <div className="flex justify-center w-md gap-4 p-3 mt-5 rounded shadow-2xl items">
             <div className="LOW">
-            <span className="font-serif text-2xl font-semibold">LOW</span>
-              <div className="flex flex-col mt-5 border rounded shadow-2xl w-sm">
-               {
-                taskItems.map((task) =>(
-                  <p key={task.id}>{task.priority === "LOW" ? task.title : ''}</p>
-                ))
-               }
+              <span className="font-serif text-2xl font-thin">LOW</span>
+                <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+                {taskItems.map((task) =>(
+                    <p key={task.id}>{task.priority === "LOW" ? task.title : ''}</p>
+                  ))}
               </div>
             </div>
             <div className="MEDIUM">
-            <span className="font-serif text-2xl font-semibold">MEDIUM</span>
-              <div className="flex flex-col mt-5 bg-white border rounded shadow-2xl w-sm">
-              {
-                taskItems.map((task) =>(
+            <span className="font-serif text-2xl font-thin">MEDIUM</span>
+              <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+              {taskItems.map((task) =>(
                   <p key={task.id}>{task.priority === "MEDIUM" ? task.title : ''}</p>
-                ))
-               }
+                ))}
               </div>
             </div>
             <div className="HIGH">
-            <span className="font-serif text-2xl font-semibold">HIGH</span>
-              <div className="flex flex-col mt-5 border rounded shadow-2xl w-sm">
-              {
-                taskItems.map((task) =>(
+            <span className="font-serif text-2xl font-thin">HIGH</span>
+              <div className="p-4 text-center transition duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+              {taskItems.map((task) =>(
                   <p key={task.id}>{task.priority === "HIGH" ? task.title : ''}</p>
-                ))
-               }
+                ))}
               </div>
             </div>
           </div>
         </div>
-        
-      <div className="flex items-center justify-center w-full gap-3">
-      <Button type="button" onClick={() => setShowAddTaskModal(true)}>Add Task</Button>
-      <Button type="button" onClick={() => setShowRegisterModal(true)}>Register</Button>
-      <Button type="button" onClick={() => setShowLoginModal(true)}>Login</Button>
-      <Button type="button" onClick={() => setShowViewTaskModal(true)}>View task</Button>
       </div>
-      {showAddTaskModal && (
-        <Modal title="Add Task" onClose={() => setShowAddTaskModal(false)}>
-          <form action="" method="post" className="p-5 mx-auto border rounded shadow-2xl w-md bg-zinc-50">
-            {
-              fieldAddTask.map((field) => (
-                <Input
-                  key={field.id}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  name={field.name}
-                  disabled={false}
-                  id={field.id}
-                  onChange={(e) => console.log(e.target.value)}
-                />
-              ))
-            }
-            <Button type="submit" onClick={() => alert('Task added!')}>Add Task</Button>
-          </form>
-        </Modal>
-      )}
-
-    {showRegisterModal && (
-            <Modal 
-              title="Register" 
-              onClose={() => setShowRegisterModal(false)}
-            >
-              <RegisterForm />
-            </Modal>
-          )}
-          
-      {showLoginModal && (
-        <Modal title="Login" onClose={() => setShowLoginModal(false)}>
-          <form action="" method="post" className="p-5 mx-auto border rounded shadow-2xl w-md bg-zinc-50">
-            {fieldsRegister.slice(2).map((field) =>(
-              <Input
-                key={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-                name={field.name}
-                disabled={false}
-                id={field.id}
-                onChange={(e) => console.log(e.target.value)}
-              />
-            ))}
-            <Button type="submit" onClick={() => alert('User registered!')}>Login</Button>
-          </form>
-        </Modal>
-      )}
-      
-      {showViewTaskModal && (
-        <Modal title="View Tasks" onClose={() => setShowViewTaskModal(false)}>
-          <div className="flex flex-col gap-5">
-            <Task items={taskItems}/>
-          </div>
-        </Modal>
-      )}
-     
     </div>
-  );
-};
+  )};
 
 export default Home;
 

@@ -11,11 +11,11 @@ export interface Task {
   }
   
   export interface taskArrayProps {
-    items: Task[];
+    tasks: Task[];
   }
   
 // Type pour les champs
-export type FieldId = 'username' | 'Last_name' | 'email' | 'password' | 'confPassword';
+export type FieldId = 'username' | 'Last_name' | 'email' | 'password' | 'confirmPassword';
 
 export type FieldId2 = 'title' | 'description'
 
@@ -26,7 +26,6 @@ export interface ModalProps {
 }
 
  export interface ButtonProps {
-  title: string;
   onClick: () => void;
   disabled?: boolean;
   type : 'submit' | 'button' | 'reset';
@@ -49,5 +48,5 @@ export interface ModalProps {
     Last_name: string;
     email: string;
     password: string;
-    confPassword: string;
+    confirmPassword: string;
   }

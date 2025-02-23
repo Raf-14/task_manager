@@ -1,24 +1,27 @@
 import { useState, useCallback } from 'react';
 import { validators } from '../functions/validation';
 import { SignUpData } from '../types/ineterfaces'
+
 export const useRegisterForm = () => {
   const [formData, setFormData] = useState<SignUpData>({
     name: '',
     Last_name: '',
     email: '',
     password: '',
-    confPassword: '',
+    confirmPassword: '',
   });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
+ /**
+   * Gère la modification des champs du formulaire.
+*/
   const validateField = useCallback((name: string, value: string) => {
     switch (name) {
       case 'email':
         return validators.email(value) ? null : 'Veuillez entrer une adresse email valide';
       case 'password':
         return validators.password(value) ? null : 'Mot de passe non conforme';
-      case 'confPassword':
+      case 'confirmPassword':
         return validators.passwordMatch(value, formData.password) 
           ? null 
           : 'Les mots de passe ne correspondent pas';
@@ -27,6 +30,7 @@ export const useRegisterForm = () => {
     }
   }, [formData.password]);
 
+  
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));

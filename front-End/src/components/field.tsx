@@ -12,7 +12,7 @@ interface FormField {
     { id: 'Last_name',  type: 'text', placeholder: 'Entrez votre Prénom', name:"Last_name" },
     { id: 'email',  type: 'email', placeholder: 'Entrez votre email', name:"email" },
     { id: 'password' , type: 'password', placeholder: 'Entrez votre mot de passe', name:"password" },
-    { id: 'confPassword' , type: 'password', placeholder: 'Confirmer votre mot de passe', name:"confPassword" },
+    { id: 'confirmPassword' , type: 'password', placeholder: 'Confirmer votre mot de passe', name:"confirmPassword" },
   ];
 
   export const fieldAddTask : {id: FieldId2,type: string, placeholder: string, name: string}[] = [
